@@ -16,3 +16,5 @@ angular.json
 *.scss
 
 **/assets/*
+
+**/styles.css
