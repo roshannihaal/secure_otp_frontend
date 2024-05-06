@@ -1,0 +1,20 @@
+version: '3.8'
+
+services:
+    frontend:
+        extends:
+            file: docker-compose.yml
+            service: frontend
+        volumes:
+            - ./dist:/usr/src/app/dist
+        networks:
+            - secure_otp-network
+        build:
+            target: production
+        environment:
+            - NODE_ENV=production
+
+networks:
+    secure_otp-network:
+        name: secure_otp-network
+        driver: bridge
