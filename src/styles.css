@@ -1,1 +1,11 @@
 /* You can add global styles to this file, and also import other style files */
+
+@font-face {
+    font-family: 'Gruppo';
+    src: url('assets/fonts/gruppo/Gruppo-Regular.ttf');
+}
+
+* {
+    font-family: 'Gruppo';
+    margin: 0;
+}
