@@ -1,0 +1,15 @@
+.lander-wrap {
+    background-color: black;
+    color: white;
+}
+
+.lander-selector {
+    transition:
+        background-color 0.5s ease,
+        color 0.5s ease;
+}
+
+.lander-selector:hover {
+    background-color: white;
+    color: black;
+}

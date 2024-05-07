@@ -3,6 +3,46 @@
 @tailwind components;
 @tailwind utilities;
 
+:root {
+    --font-xs: 0.75rem;
+    --font-sm: 1rem;
+    --font-md: 1.5rem;
+    --font-lg: 1.75rem;
+    --font-xl: 2rem;
+    --font-vb: 5rem;
+
+    --font-weight-light: 300;
+    --font-weight-normal: 400;
+    --font-weight-medium: 500;
+    --font-weight-semibold: 700;
+    --font-weight-bold: 900;
+}
+
+.very-big {
+    font-size: var(--font-vb);
+    font-weight: var(--font-weight-bold);
+}
+
+.title {
+    font-size: var(--font-xl);
+    font-weight: var(--font-weight-bold);
+}
+
+.subtitle {
+    font-size: var(--font-lg);
+    font-weight: var(--font-weight-semibold);
+}
+
+.medium-text {
+    font-size: var(--font-md);
+    font-weight: var(--font-weight-medium);
+}
+
+.tiny-text {
+    font-size: var(--font-xs);
+    font-weight: var(--font-weight-normal);
+}
+
 @font-face {
     font-family: 'Gruppo';
     src: url('assets/fonts/gruppo/Gruppo-Regular.ttf');

@@ -1,0 +1,11 @@
+<div class="w-full h-full flex cursor-pointer title">
+    <form [formGroup]="dynamicForm">
+        <div class="" *ngIf="currAuth === 'email'">
+            <input type="text" pInputText formControlName="id" class="mobile_number-input" />
+        </div>
+        <!-- Buttons -->
+        <div class="">
+            <button>{{ generateMessage }}</button>
+        </div>
+    </form>
+</div>
