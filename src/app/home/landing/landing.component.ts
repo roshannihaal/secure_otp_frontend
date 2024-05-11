@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
+import { ApiService } from '../service/api.service';
 
 @Component({
     selector: 'app-landing',
@@ -11,13 +12,15 @@ export class LandingComponent implements OnInit {
 
     constructor(
         private router: Router,
-        private route: ActivatedRoute
+        private route: ActivatedRoute,
+        private apiService: ApiService
     ) {}
     ngOnInit(): void {
         this.types = [
             { value: 'authenticator', label: 'AUTHENTICATOR' },
             { value: 'email', label: 'EMAIL' },
         ];
+        this.check();
     }
 
     onSelectType(type: string): void {
@@ -29,5 +32,9 @@ export class LandingComponent implements OnInit {
                 this.router.navigate(['email'], { relativeTo: this.route });
                 break;
         }
+    }
+
+    check() {
+        this.apiService.init().subscribe();
     }
 }

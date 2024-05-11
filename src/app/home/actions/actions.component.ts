@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 
 @Component({
     selector: 'app-actions',
@@ -11,12 +11,17 @@ export class ActionsComponent implements OnInit {
     currAuth: string;
     dynamicForm: FormGroup;
     generateMessage: string;
+    backMessage: string;
 
-    constructor(private route: ActivatedRoute) {}
+    constructor(
+        private route: ActivatedRoute,
+        private router: Router
+    ) {}
 
     ngOnInit(): void {
         this.currAuth = this.route.snapshot.routeConfig.path;
         this.setupDynamicForm();
+        this.backMessage = 'Back';
     }
 
     setupDynamicForm(): void {
@@ -32,5 +37,9 @@ export class ActionsComponent implements OnInit {
         } else {
             this.generateMessage = 'Generate QR Code';
         }
+    }
+
+    onBack(): void {
+        this.router.navigate(['']);
     }
 }

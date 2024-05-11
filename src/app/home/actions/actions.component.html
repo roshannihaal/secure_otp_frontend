@@ -1,11 +1,25 @@
-<div class="w-full h-full flex cursor-pointer title">
-    <form [formGroup]="dynamicForm">
+<div class="w-full h-full flex items-center justify-center title">
+    <form [formGroup]="dynamicForm" class="flex flex-col gap-3 w-2/4">
         <div class="" *ngIf="currAuth === 'email'">
-            <input type="text" pInputText formControlName="id" class="mobile_number-input" />
+            <input
+                type="text"
+                formControlName="id"
+                placeholder="Email Id"
+                class="font-normal inputt w-full" />
         </div>
         <!-- Buttons -->
-        <div class="">
-            <button>{{ generateMessage }}</button>
+        <div
+            class="flex gap-3"
+            [ngClass]="{
+                'justify-end': currAuth === 'email',
+                'justify-center': currAuth === 'authenticator'
+            }">
+            <div class="">
+                <button class="btnn">{{ generateMessage }}</button>
+            </div>
+            <div class="">
+                <button class="cancel-btnn" (click)="onBack()">{{ backMessage }}</button>
+            </div>
         </div>
     </form>
 </div>
