@@ -38,9 +38,14 @@
     font-weight: var(--font-weight-medium);
 }
 
+.normal-text {
+    font-size: var(--font-sm);
+    font-weight: var(--font-weight-normal);
+}
+
 .tiny-text {
     font-size: var(--font-xs);
-    font-weight: var(--font-weight-normal);
+    font-weight: var(--font-weight-light);
 }
 
 @font-face {
@@ -61,7 +66,14 @@
     padding-bottom: 0.5rem;
 }
 
-.cancel-btnn {
+.inactive-btnn {
+    color: gray;
+    border-color: gray;
+    pointer-events: none;
+    opacity: 50%;
+}
+
+.black-btnn {
     border: 1px solid black;
     background-color: black;
     color: white;

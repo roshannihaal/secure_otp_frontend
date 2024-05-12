@@ -3,14 +3,14 @@
     color: white;
 }
 
-.cancel-btnn {
+.black-btnn {
     border: 1px solid white;
     transition:
         background-color 0.5s ease,
         color 0.5s ease;
 }
 
-.cancel-btnn:hover {
+.black-btnn:hover {
     color: black;
     background-color: white;
 }

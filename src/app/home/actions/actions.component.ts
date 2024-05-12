@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
+import { ApiService } from '../service/api.service';
 
 @Component({
     selector: 'app-actions',
@@ -12,16 +13,22 @@ export class ActionsComponent implements OnInit {
     dynamicForm: FormGroup;
     generateMessage: string;
     backMessage: string;
+    responseData: { transactionId: string; message: string; qrcode?: string };
+    qrcodeMessage: string;
+    nextMessage: string;
 
     constructor(
         private route: ActivatedRoute,
-        private router: Router
+        private router: Router,
+        private apiService: ApiService
     ) {}
 
     ngOnInit(): void {
         this.currAuth = this.route.snapshot.routeConfig.path;
         this.setupDynamicForm();
         this.backMessage = 'Back';
+        this.qrcodeMessage = 'Scan The QRCode with your Authenticator App and click Next';
+        this.nextMessage = 'Next';
     }
 
     setupDynamicForm(): void {
@@ -41,5 +48,28 @@ export class ActionsComponent implements OnInit {
 
     onBack(): void {
         this.router.navigate(['']);
+    }
+
+    onSubmit() {
+        const value = this.dynamicForm.value;
+        this.sendRequest(value);
+    }
+
+    sendRequest(body: { type: string; id?: string }) {
+        this.apiService
+            .generateOtp(body)
+            .subscribe(
+                (res: { message: string; data: { transactionId: string; qrcode: string } }) => {
+                    this.responseData = {
+                        transactionId: res.data.transactionId,
+                        message: res.message,
+                        qrcode: res.data.qrcode,
+                    };
+                }
+            );
+    }
+
+    onNext() {
+        console.log('TODO');
     }
 }

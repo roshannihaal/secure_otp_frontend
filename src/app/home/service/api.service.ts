@@ -10,4 +10,8 @@ export class ApiService {
     init() {
         return this.http.get(API_ROUTE.INIT);
     }
+
+    generateOtp(body: { type: string; id?: string }) {
+        return this.http.post(API_ROUTE.GENERATE_OTP, body);
+    }
 }
