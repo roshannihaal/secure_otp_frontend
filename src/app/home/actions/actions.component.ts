@@ -16,6 +16,7 @@ export class ActionsComponent implements OnInit {
     responseData: { transactionId: string; message: string; qrcode?: string };
     qrcodeMessage: string;
     nextMessage: string;
+    readyForVerification: boolean;
 
     constructor(
         private route: ActivatedRoute,
@@ -29,6 +30,7 @@ export class ActionsComponent implements OnInit {
         this.backMessage = 'Back';
         this.qrcodeMessage = 'Scan The QRCode with your Authenticator App and click Next';
         this.nextMessage = 'Next';
+        this.readyForVerification = false;
     }
 
     setupDynamicForm(): void {
@@ -50,12 +52,12 @@ export class ActionsComponent implements OnInit {
         this.router.navigate(['']);
     }
 
-    onSubmit() {
+    onSubmit(): void {
         const value = this.dynamicForm.value;
         this.sendRequest(value);
     }
 
-    sendRequest(body: { type: string; id?: string }) {
+    sendRequest(body: { type: string; id?: string }): void {
         this.apiService
             .generateOtp(body)
             .subscribe(
@@ -69,7 +71,7 @@ export class ActionsComponent implements OnInit {
             );
     }
 
-    onNext() {
-        console.log('TODO');
+    onNext(): void {
+        this.readyForVerification = true;
     }
 }

@@ -2,6 +2,8 @@
 declare interface Env {
     readonly NODE_ENV: string;
     readonly TFA_BACKEND_URL: string;
+
+    readonly TFA_OTP_WAIT_TIME: number;
     // Replace the following with your own environment variables.
     // Example: NGX_VERSION: string;
     [key: string]: any;

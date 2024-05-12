@@ -16,8 +16,6 @@ export class AuthInterceptor implements HttpInterceptor {
     constructor(private loaderService: LoaderService) {}
     addRequest(req: HttpRequest<unknown>) {
         this.requests.push(req);
-        console.log(this.requests);
-
         this.loaderService.startLoading();
     }
 
