@@ -1,7 +1,8 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { environment } from 'src/environments/environment';
+import { ApiService } from '../service/api.service';
 
 @Component({
     selector: 'app-verification',
@@ -23,10 +24,23 @@ export class VerificationComponent implements OnInit {
     waitTimeMessage: string;
     timer: any;
     canResend: boolean;
+    currAuth: string;
+    responseData: {
+        message: string;
+        data: {
+            transactionId: string;
+        };
+    };
+    readyForFinal: boolean;
 
-    constructor(private router: Router) {}
+    constructor(
+        private router: Router,
+        private route: ActivatedRoute,
+        private apiService: ApiService
+    ) {}
 
     ngOnInit(): void {
+        this.currAuth = this.route.snapshot.routeConfig.path;
         this.verifyMessage = 'Verify';
         this.cancelMessage = 'Cancel';
         if (this.data.qrcode) {
@@ -34,6 +48,7 @@ export class VerificationComponent implements OnInit {
         } else {
             this.resendMessage = 'Resend OTP';
         }
+        this.readyForFinal = false;
         this.setupOtpForm();
         this.initializeTimer();
     }
@@ -82,5 +97,23 @@ export class VerificationComponent implements OnInit {
 
     onResend() {
         this.initializeTimer();
+    }
+
+    onVerify() {
+        const body = {
+            type: this.currAuth,
+            transactionId: this.data.transactionId,
+            otp: this.otpForm.value.otp,
+        };
+        this.sendVerifyRequest(body);
+    }
+
+    sendVerifyRequest(body: { type: string; transactionId: string; otp: string }) {
+        this.apiService
+            .verifyOtp(body)
+            .subscribe((res: { message: string; data: { transactionId: string } }) => {
+                this.responseData = res;
+                this.readyForFinal = true;
+            });
     }
 }

@@ -14,4 +14,8 @@ export class ApiService {
     generateOtp(body: { type: string; id?: string }) {
         return this.http.post(API_ROUTE.GENERATE_OTP, body);
     }
+
+    verifyOtp(body: { type: string; id?: string; otp: string }) {
+        return this.http.post(API_ROUTE.VERIFY_OTP, body);
+    }
 }

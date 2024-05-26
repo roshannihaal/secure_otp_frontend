@@ -1,5 +1,8 @@
-<div class="w-full h-full flex justify-center title">
-    <form [formGroup]="otpForm" class="flex flex-col justify-end gap-3 w-2/4 h-3/6">
+<div class="w-full h-full flex justify-center title" *ngIf="!readyForFinal">
+    <form
+        [formGroup]="otpForm"
+        class="flex flex-col justify-end gap-3 w-2/4 h-3/6"
+        (ngSubmit)="onVerify()">
         <div class="">
             <input
                 type="text"
@@ -26,4 +29,7 @@
             </div>
         </div>
     </form>
+</div>
+<div class="w-full h-full" *ngIf="readyForFinal">
+    <app-final [data]="responseData"></app-final>
 </div>
