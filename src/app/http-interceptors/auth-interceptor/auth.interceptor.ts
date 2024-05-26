@@ -9,11 +9,14 @@ import {
 import { Observable } from 'rxjs';
 import { environment } from 'src/environments/environment';
 import { LoaderService } from 'src/app/shared/service/loader.service';
-
+import { ToastrService } from 'ngx-toastr';
 @Injectable()
 export class AuthInterceptor implements HttpInterceptor {
     private requests: HttpRequest<unknown>[] = [];
-    constructor(private loaderService: LoaderService) {}
+    constructor(
+        private loaderService: LoaderService,
+        private toastr: ToastrService
+    ) {}
     addRequest(req: HttpRequest<unknown>) {
         this.requests.push(req);
         this.loaderService.startLoading();
@@ -39,9 +42,16 @@ export class AuthInterceptor implements HttpInterceptor {
         return new Observable(observer => {
             const subscription = next.handle(request).subscribe({
                 next: event => {
-                    if (event instanceof HttpResponse) observer.next(event);
+                    if (event instanceof HttpResponse) {
+                        this.toastr.success(`Status code: ${event.status}`, event.body.message);
+                        observer.next(event);
+                    }
                 },
-                error: (err: { error: { message: string } }) => {
+                error: (err: {
+                    error: { message: string; statusCode: number };
+                    status: number;
+                }) => {
+                    this.toastr.error(`Status code: ${err.status}`, err.error.message);
                     observer.error(err);
                 },
                 complete: () => {
