@@ -1,4 +1,4 @@
-<div class="w-full h-full flex justify-center title" *ngIf="!readyForFinal">
+<div class="w-full h-full flex flex-col items-center gap-3 title" *ngIf="!readyForFinal">
     <form
         [formGroup]="otpForm"
         class="flex flex-col justify-end gap-3 w-2/4 h-3/6"
@@ -29,6 +29,14 @@
             </div>
         </div>
     </form>
+    <div class="w-2/4 h-2/6 flex flex-col items-center" *ngIf="!data.new && data.qrcode">
+        <div class="border-2 border-black border-solid w-max">
+            <img src="{{ data.qrcode }}" />
+        </div>
+        <div class="medium-text text-center">
+            {{ qrcodeMessage }}
+        </div>
+    </div>
 </div>
 <div class="w-full h-full" *ngIf="readyForFinal">
     <app-final [data]="responseData"></app-final>

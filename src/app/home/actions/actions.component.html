@@ -48,5 +48,5 @@
     </div>
 </div>
 <div class="w-full h-full" *ngIf="readyForVerification">
-    <app-verification [data]="responseData"></app-verification>
+    <app-verification [data]="responseData" (resend)="onResend($event)"></app-verification>
 </div>

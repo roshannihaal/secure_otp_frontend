@@ -18,4 +18,8 @@ export class ApiService {
     verifyOtp(body: { type: string; id?: string; otp: string }) {
         return this.http.post(API_ROUTE.VERIFY_OTP, body);
     }
+
+    resendOtp(body: { type: string; transactionId: string }) {
+        return this.http.post(API_ROUTE.RESEND_OTP, body);
+    }
 }

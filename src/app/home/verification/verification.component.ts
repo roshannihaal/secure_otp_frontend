@@ -1,4 +1,12 @@
-import { Component, Input, OnInit } from '@angular/core';
+import {
+    Component,
+    EventEmitter,
+    Input,
+    OnChanges,
+    OnInit,
+    Output,
+    SimpleChanges,
+} from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { environment } from 'src/environments/environment';
@@ -9,12 +17,14 @@ import { ApiService } from '../service/api.service';
     templateUrl: './verification.component.html',
     styleUrls: ['./verification.component.css'],
 })
-export class VerificationComponent implements OnInit {
+export class VerificationComponent implements OnInit, OnChanges {
     @Input() data: {
         message: string;
         transactionId: string;
-        qrcode?: string;
+        qrcode: string;
+        new: boolean;
     };
+    @Output() resend = new EventEmitter<boolean>();
 
     otpForm: FormGroup;
     verifyMessage: string;
@@ -32,6 +42,7 @@ export class VerificationComponent implements OnInit {
         };
     };
     readyForFinal: boolean;
+    qrcodeMessage: string;
 
     constructor(
         private router: Router,
@@ -45,11 +56,15 @@ export class VerificationComponent implements OnInit {
         this.cancelMessage = 'Cancel';
         if (this.data.qrcode) {
             this.resendMessage = 'Regenerate QR Code';
+            this.qrcodeMessage = 'Scan The QRCode with your Authenticator App and enter the OTP';
         } else {
             this.resendMessage = 'Resend OTP';
         }
         this.readyForFinal = false;
         this.setupOtpForm();
+    }
+
+    ngOnChanges(changes: SimpleChanges): void {
         this.initializeTimer();
     }
 
@@ -96,7 +111,7 @@ export class VerificationComponent implements OnInit {
     }
 
     onResend() {
-        this.initializeTimer();
+        this.resend.emit(true);
     }
 
     onVerify() {

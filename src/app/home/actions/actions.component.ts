@@ -13,7 +13,7 @@ export class ActionsComponent implements OnInit {
     dynamicForm: FormGroup;
     generateMessage: string;
     backMessage: string;
-    responseData: { transactionId: string; message: string; qrcode?: string };
+    responseData: { transactionId: string; message: string; qrcode: string; new: boolean };
     qrcodeMessage: string;
     nextMessage: string;
     readyForVerification: boolean;
@@ -61,11 +61,12 @@ export class ActionsComponent implements OnInit {
         this.apiService
             .generateOtp(body)
             .subscribe(
-                (res: { message: string; data: { transactionId: string; qrcode: string } }) => {
+                (res: { message: string; data: { transactionId: string; qrcode?: string } }) => {
                     this.responseData = {
                         transactionId: res.data.transactionId,
                         message: res.message,
                         qrcode: res.data.qrcode,
+                        new: true,
                     };
                     if (this.currAuth === 'email') {
                         this.onNext();
@@ -74,7 +75,30 @@ export class ActionsComponent implements OnInit {
             );
     }
 
+    resendRequest(body: { type: string; transactionId: string }): void {
+        this.apiService
+            .resendOtp(body)
+            .subscribe(
+                (res: { message: string; data: { transactionId: string; qrcode?: string } }) => {
+                    this.responseData = {
+                        transactionId: res.data.transactionId,
+                        message: res.message,
+                        qrcode: res.data.qrcode,
+                        new: false,
+                    };
+                }
+            );
+    }
+
     onNext(): void {
         this.readyForVerification = true;
+    }
+
+    onResend(): void {
+        const body = {
+            type: this.currAuth,
+            transactionId: this.responseData.transactionId,
+        };
+        this.resendRequest(body);
     }
 }
