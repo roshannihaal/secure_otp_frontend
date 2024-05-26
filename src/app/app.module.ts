@@ -17,6 +17,7 @@ import { provideToastr } from 'ngx-toastr';
             timeOut: 3000,
             positionClass: 'toast-top-right',
             preventDuplicates: false,
+            progressBar: true,
         }),
         provideAnimations(),
     ],
