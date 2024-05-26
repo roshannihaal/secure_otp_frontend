@@ -11,6 +11,8 @@ import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { environment } from 'src/environments/environment';
 import { ApiService } from '../service/api.service';
+import { IGenerate } from 'src/app/shared/interface/igenerate';
+import { IVerify } from 'src/app/shared/interface/iverify';
 
 @Component({
     selector: 'app-verification',
@@ -18,7 +20,7 @@ import { ApiService } from '../service/api.service';
     styleUrls: ['./verification.component.css'],
 })
 export class VerificationComponent implements OnInit, OnChanges {
-    @Input() dope: { message: string; data: { transactionId: string; qrcode?: string } };
+    @Input() dope: IGenerate;
     @Input() new: boolean;
     @Output() resend = new EventEmitter<boolean>();
 
@@ -120,11 +122,9 @@ export class VerificationComponent implements OnInit, OnChanges {
     }
 
     sendVerifyRequest(body: { type: string; transactionId: string; otp: string }) {
-        this.apiService
-            .verifyOtp(body)
-            .subscribe((res: { message: string; data: { transactionId: string } }) => {
-                this.responseData = res;
-                this.readyForFinal = true;
-            });
+        this.apiService.verifyOtp(body).subscribe((res: IVerify) => {
+            this.responseData = res;
+            this.readyForFinal = true;
+        });
     }
 }

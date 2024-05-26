@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ApiService } from '../service/api.service';
+import { IGenerate } from 'src/app/shared/interface/igenerate';
 
 @Component({
     selector: 'app-actions',
@@ -13,7 +14,7 @@ export class ActionsComponent implements OnInit {
     dynamicForm: FormGroup;
     generateMessage: string;
     backMessage: string;
-    responseData: { message: string; data: { transactionId: string; qrcode?: string } };
+    responseData: IGenerate;
     qrcodeMessage: string;
     nextMessage: string;
     readyForVerification: boolean;
@@ -59,28 +60,20 @@ export class ActionsComponent implements OnInit {
     }
 
     sendRequest(body: { type: string; id?: string }): void {
-        this.apiService
-            .generateOtp(body)
-            .subscribe(
-                (res: { message: string; data: { transactionId: string; qrcode?: string } }) => {
-                    this.responseData = res;
-                    this.newTransaction = true;
-                    if (this.currAuth === 'email') {
-                        this.onNext();
-                    }
-                }
-            );
+        this.apiService.generateOtp(body).subscribe((res: IGenerate) => {
+            this.responseData = res;
+            this.newTransaction = true;
+            if (this.currAuth === 'email') {
+                this.onNext();
+            }
+        });
     }
 
     resendRequest(body: { type: string; transactionId: string }): void {
-        this.apiService
-            .resendOtp(body)
-            .subscribe(
-                (res: { message: string; data: { transactionId: string; qrcode?: string } }) => {
-                    this.responseData = res;
-                    this.newTransaction = false;
-                }
-            );
+        this.apiService.resendOtp(body).subscribe((res: IGenerate) => {
+            this.responseData = res;
+            this.newTransaction = false;
+        });
     }
 
     onNext(): void {

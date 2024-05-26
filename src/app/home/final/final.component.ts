@@ -1,5 +1,6 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+import { IVerify } from 'src/app/shared/interface/iverify';
 import { environment } from 'src/environments/environment';
 
 @Component({
@@ -8,12 +9,7 @@ import { environment } from 'src/environments/environment';
     styleUrls: ['./final.component.css'],
 })
 export class FinalComponent implements OnInit {
-    @Input() data: {
-        message: string;
-        data: {
-            transactionId: string;
-        };
-    };
+    @Input() data: IVerify;
 
     timer: any;
     waitTime: number;
