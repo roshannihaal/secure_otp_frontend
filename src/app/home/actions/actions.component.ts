@@ -67,6 +67,9 @@ export class ActionsComponent implements OnInit {
                         message: res.message,
                         qrcode: res.data.qrcode,
                     };
+                    if (this.currAuth === 'email') {
+                        this.onNext();
+                    }
                 }
             );
     }
