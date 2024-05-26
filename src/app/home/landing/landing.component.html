@@ -1,0 +1,8 @@
+<div class="w-full h-full flex cursor-pointer title lander-wrap">
+    <div
+        (click)="onSelectType(type.value)"
+        class="w-1/2 flex justify-center items-center lander-selector"
+        *ngFor="let type of types">
+        <div class="">{{ type.label }}</div>
+    </div>
+</div>

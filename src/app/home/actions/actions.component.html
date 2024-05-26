@@ -1,0 +1,55 @@
+<div class="w-full h-full flex flex-col gap-3 items-center title" *ngIf="!readyForVerification">
+    <form
+        [formGroup]="dynamicForm"
+        class="flex flex-col justify-end gap-3 w-2/4 h-3/6"
+        (ngSubmit)="onSubmit()">
+        <div class="" *ngIf="currAuth === 'email'">
+            <input
+                type="text"
+                formControlName="id"
+                placeholder="Email Id"
+                class="font-normal inputt w-full pl-1" />
+        </div>
+        <!-- Buttons -->
+        <div
+            class="flex gap-3"
+            [ngClass]="{
+                'justify-end': currAuth === 'email',
+                'justify-center': currAuth === 'authenticator'
+            }">
+            <div class="">
+                <button class="btnn" [ngClass]="{ 'inactive-btnn': !this.dynamicForm.valid }">
+                    {{ generateMessage }}
+                </button>
+            </div>
+            <div class="">
+                <button class="black-btnn" (click)="onBack()">{{ backMessage }}</button>
+            </div>
+        </div>
+    </form>
+    <!-- QR Code -->
+    <div class="w-2/4 h-3/6" *ngIf="currAuth === 'authenticator'">
+        <div class="flex flex-col items-center gap-3" *ngIf="responseData">
+            <div class="border-2 border-black border-solid">
+                <img src="{{ responseData.data.qrcode }}" />
+            </div>
+            <div class="medium-text text-center">
+                {{ qrcodeMessage }}
+                <div class="">
+                    <button class="w-full black-btnn" (click)="onNext()">{{ nextMessage }}</button>
+                </div>
+            </div>
+        </div>
+        <div class="flex justify-center" *ngIf="!responseData">
+            <div class="border-2 border-black border-solid">
+                <img src="../../../assets/images/blurredqr.jpg" />
+            </div>
+        </div>
+    </div>
+</div>
+<div class="w-full h-full" *ngIf="readyForVerification">
+    <app-verification
+        [dope]="responseData"
+        [new]="newTransaction"
+        (resend)="onResend($event)"></app-verification>
+</div>

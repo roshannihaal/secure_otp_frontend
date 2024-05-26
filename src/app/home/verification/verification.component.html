@@ -1,0 +1,43 @@
+<div class="w-full h-full flex flex-col items-center gap-3 title" *ngIf="!readyForFinal">
+    <form
+        [formGroup]="otpForm"
+        class="flex flex-col justify-end gap-3 w-2/4 h-3/6"
+        (ngSubmit)="onVerify()">
+        <div class="">
+            <input
+                type="text"
+                formControlName="otp"
+                placeholder="OTP"
+                class="font-normal inputt w-full pl-1" />
+        </div>
+        <!-- Buttons -->
+        <div class="flex flex-col gap-3">
+            <div class="flex medium-text justify-between">
+                <button
+                    [ngClass]="{ 'pointer-events-none opacity-25': !canResend }"
+                    type="button"
+                    (click)="onResend()">
+                    {{ resendMessage }}
+                </button>
+                <div class="">{{ waitTimeMessage }}</div>
+            </div>
+            <div class="flex gap-3">
+                <button class="w-8/12 black-btnn">{{ verifyMessage }}</button>
+                <button class="w-4/12 btnn" type="button" (click)="onCancel()">
+                    {{ cancelMessage }}
+                </button>
+            </div>
+        </div>
+    </form>
+    <div class="w-2/4 h-2/6 flex flex-col items-center" *ngIf="!new && dope.data.qrcode">
+        <div class="border-2 border-black border-solid w-max">
+            <img src="{{ dope.data.qrcode }}" />
+        </div>
+        <div class="medium-text text-center">
+            {{ qrcodeMessage }}
+        </div>
+    </div>
+</div>
+<div class="w-full h-full" *ngIf="readyForFinal">
+    <app-final [data]="responseData"></app-final>
+</div>

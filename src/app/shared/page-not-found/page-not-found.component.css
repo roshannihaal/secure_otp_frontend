@@ -1,0 +1,16 @@
+.pnf-wrap {
+    background-color: black;
+    color: white;
+}
+
+.black-btnn {
+    border: 1px solid white;
+    transition:
+        background-color 0.5s ease,
+        color 0.5s ease;
+}
+
+.black-btnn:hover {
+    color: black;
+    background-color: white;
+}
