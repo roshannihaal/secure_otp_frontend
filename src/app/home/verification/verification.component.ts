@@ -18,12 +18,8 @@ import { ApiService } from '../service/api.service';
     styleUrls: ['./verification.component.css'],
 })
 export class VerificationComponent implements OnInit, OnChanges {
-    @Input() data: {
-        message: string;
-        transactionId: string;
-        qrcode: string;
-        new: boolean;
-    };
+    @Input() dope: { message: string; data: { transactionId: string; qrcode?: string } };
+    @Input() new: boolean;
     @Output() resend = new EventEmitter<boolean>();
 
     otpForm: FormGroup;
@@ -54,7 +50,7 @@ export class VerificationComponent implements OnInit, OnChanges {
         this.currAuth = this.route.snapshot.routeConfig.path;
         this.verifyMessage = 'Verify';
         this.cancelMessage = 'Cancel';
-        if (this.data.qrcode) {
+        if (this.dope.data.qrcode) {
             this.resendMessage = 'Regenerate QR Code';
             this.qrcodeMessage = 'Scan The QRCode with your Authenticator App and enter the OTP';
         } else {
@@ -92,7 +88,7 @@ export class VerificationComponent implements OnInit, OnChanges {
         const min: string = String(Math.trunc(this.waitTime / 60)).padStart(2, '0');
         const sec: string = String(this.waitTime % 60).padStart(2, '0');
 
-        if (this.data.qrcode) {
+        if (this.dope.data.qrcode) {
             this.waitTimeMessage = `Regenerate QR Code in ${min}:${sec}`;
         } else {
             this.waitTimeMessage = `Resend OTP in ${min}:${sec}`;
@@ -117,7 +113,7 @@ export class VerificationComponent implements OnInit, OnChanges {
     onVerify() {
         const body = {
             type: this.currAuth,
-            transactionId: this.data.transactionId,
+            transactionId: this.dope.data.transactionId,
             otp: this.otpForm.value.otp,
         };
         this.sendVerifyRequest(body);

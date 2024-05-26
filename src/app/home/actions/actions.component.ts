@@ -13,10 +13,11 @@ export class ActionsComponent implements OnInit {
     dynamicForm: FormGroup;
     generateMessage: string;
     backMessage: string;
-    responseData: { transactionId: string; message: string; qrcode: string; new: boolean };
+    responseData: { message: string; data: { transactionId: string; qrcode?: string } };
     qrcodeMessage: string;
     nextMessage: string;
     readyForVerification: boolean;
+    newTransaction: boolean;
 
     constructor(
         private route: ActivatedRoute,
@@ -62,12 +63,8 @@ export class ActionsComponent implements OnInit {
             .generateOtp(body)
             .subscribe(
                 (res: { message: string; data: { transactionId: string; qrcode?: string } }) => {
-                    this.responseData = {
-                        transactionId: res.data.transactionId,
-                        message: res.message,
-                        qrcode: res.data.qrcode,
-                        new: true,
-                    };
+                    this.responseData = res;
+                    this.newTransaction = true;
                     if (this.currAuth === 'email') {
                         this.onNext();
                     }
@@ -80,12 +77,8 @@ export class ActionsComponent implements OnInit {
             .resendOtp(body)
             .subscribe(
                 (res: { message: string; data: { transactionId: string; qrcode?: string } }) => {
-                    this.responseData = {
-                        transactionId: res.data.transactionId,
-                        message: res.message,
-                        qrcode: res.data.qrcode,
-                        new: false,
-                    };
+                    this.responseData = res;
+                    this.newTransaction = false;
                 }
             );
     }
@@ -97,7 +90,7 @@ export class ActionsComponent implements OnInit {
     onResend(): void {
         const body = {
             type: this.currAuth,
-            transactionId: this.responseData.transactionId,
+            transactionId: this.responseData.data.transactionId,
         };
         this.resendRequest(body);
     }
