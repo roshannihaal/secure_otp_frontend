@@ -5,6 +5,7 @@ import { ApiService } from '../service/api.service';
 import { IGenerate } from 'src/app/shared/interface/igenerate';
 import { ISendBody } from 'src/app/shared/interface/isend';
 import { IResendBody } from 'src/app/shared/interface/iresend';
+import { AuthTypes } from 'src/app/shared/enum/auth-types';
 
 @Component({
     selector: 'app-actions',
@@ -41,7 +42,7 @@ export class ActionsComponent implements OnInit {
         this.dynamicForm = new FormGroup({
             type: new FormControl(this.currAuth),
         });
-        if (this.currAuth === 'email') {
+        if (this.currAuth === AuthTypes.EMAIL) {
             this.dynamicForm.addControl(
                 'id',
                 new FormControl(null, [Validators.required, Validators.email])
@@ -65,7 +66,7 @@ export class ActionsComponent implements OnInit {
         this.apiService.generateOtp(body).subscribe((res: IGenerate) => {
             this.responseData = res;
             this.newTransaction = true;
-            if (this.currAuth === 'email') {
+            if (this.currAuth === AuthTypes.EMAIL) {
                 this.onNext();
             }
         });

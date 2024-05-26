@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ApiService } from '../service/api.service';
+import { AuthTypes } from 'src/app/shared/enum/auth-types';
 
 @Component({
     selector: 'app-landing',
@@ -17,19 +18,19 @@ export class LandingComponent implements OnInit {
     ) {}
     ngOnInit(): void {
         this.types = [
-            { value: 'authenticator', label: 'AUTHENTICATOR' },
-            { value: 'email', label: 'EMAIL' },
+            { value: AuthTypes.AUTHENTICATOR, label: 'AUTHENTICATOR' },
+            { value: AuthTypes.EMAIL, label: 'EMAIL' },
         ];
         this.check();
     }
 
     onSelectType(type: string): void {
         switch (type) {
-            case 'authenticator':
-                this.router.navigate(['authenticator'], { relativeTo: this.route });
+            case AuthTypes.AUTHENTICATOR:
+                this.router.navigate([AuthTypes.AUTHENTICATOR], { relativeTo: this.route });
                 break;
-            case 'email':
-                this.router.navigate(['email'], { relativeTo: this.route });
+            case AuthTypes.EMAIL:
+                this.router.navigate([AuthTypes.EMAIL], { relativeTo: this.route });
                 break;
         }
     }
