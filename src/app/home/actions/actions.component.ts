@@ -3,6 +3,8 @@ import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ApiService } from '../service/api.service';
 import { IGenerate } from 'src/app/shared/interface/igenerate';
+import { ISendBody } from 'src/app/shared/interface/isend';
+import { IResendBody } from 'src/app/shared/interface/iresend';
 
 @Component({
     selector: 'app-actions',
@@ -55,11 +57,11 @@ export class ActionsComponent implements OnInit {
     }
 
     onSubmit(): void {
-        const value = this.dynamicForm.value;
+        const value: ISendBody = this.dynamicForm.value;
         this.sendRequest(value);
     }
 
-    sendRequest(body: { type: string; id?: string }): void {
+    sendRequest(body: ISendBody): void {
         this.apiService.generateOtp(body).subscribe((res: IGenerate) => {
             this.responseData = res;
             this.newTransaction = true;
@@ -69,7 +71,7 @@ export class ActionsComponent implements OnInit {
         });
     }
 
-    resendRequest(body: { type: string; transactionId: string }): void {
+    resendRequest(body: IResendBody): void {
         this.apiService.resendOtp(body).subscribe((res: IGenerate) => {
             this.responseData = res;
             this.newTransaction = false;
@@ -81,7 +83,7 @@ export class ActionsComponent implements OnInit {
     }
 
     onResend(): void {
-        const body = {
+        const body: IResendBody = {
             type: this.currAuth,
             transactionId: this.responseData.data.transactionId,
         };

@@ -13,6 +13,7 @@ import { environment } from 'src/environments/environment';
 import { ApiService } from '../service/api.service';
 import { IGenerate } from 'src/app/shared/interface/igenerate';
 import { IVerify } from 'src/app/shared/interface/iverify';
+import { IVerifyBody } from 'src/app/shared/interface/iverify-body';
 
 @Component({
     selector: 'app-verification',
@@ -113,7 +114,7 @@ export class VerificationComponent implements OnInit, OnChanges {
     }
 
     onVerify() {
-        const body = {
+        const body: IVerifyBody = {
             type: this.currAuth,
             transactionId: this.dope.data.transactionId,
             otp: this.otpForm.value.otp,
@@ -121,7 +122,7 @@ export class VerificationComponent implements OnInit, OnChanges {
         this.sendVerifyRequest(body);
     }
 
-    sendVerifyRequest(body: { type: string; transactionId: string; otp: string }) {
+    sendVerifyRequest(body: IVerifyBody) {
         this.apiService.verifyOtp(body).subscribe((res: IVerify) => {
             this.responseData = res;
             this.readyForFinal = true;
